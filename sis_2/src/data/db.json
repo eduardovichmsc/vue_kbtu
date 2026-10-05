@@ -1,0 +1,40 @@
+{
+  "currentUser": {
+    "name": "Darzhan Eduarduly",
+    "initials": "DE",
+    "email": "d_eduarduly@kbtu.kz"
+  },
+  "spaces": [{ "id": "s1", "name": "Personal" }],
+  "tasks": [
+    {
+      "id": 1,
+      "spaceId": "s1",
+      "name": "проснуться рано утром в 13:00",
+      "description": "не получилось",
+      "creationDate": "Sep 28, 2026",
+      "assignee": "Darzhan Eduarduly",
+      "assigneeInitials": "DE",
+      "priority": "Urgent",
+      "priorityColor": "text-red-500",
+      "deadline": "Today",
+      "status": "To do",
+      "statusColor": "bg-gray-500/10 text-gray-400 border-gray-500/20",
+      "statusDot": "bg-gray-400"
+    },
+    {
+      "id": 2,
+      "spaceId": "s1",
+      "name": "снайпер на 4 через ханду и фаст аган",
+      "description": "",
+      "creationDate": "Sep 27, 2026",
+      "assignee": "Darzhan Eduarduly",
+      "assigneeInitials": "DE",
+      "priority": "Low",
+      "priorityColor": "text-gray-500",
+      "deadline": "No set date",
+      "status": "Done",
+      "statusColor": "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      "statusDot": "bg-emerald-400"
+    }
+  ]
+}
