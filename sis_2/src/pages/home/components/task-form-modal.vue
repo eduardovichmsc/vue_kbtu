@@ -89,7 +89,6 @@ const submitTask = () => {
         @submit.prevent="submitTask"
         class="flex flex-col gap-5"
       >
-        <!-- Name -->
         <div>
           <label class="block text-sm font-medium text-gray-400 mb-1.5"
             >Task Name</label
@@ -103,7 +102,6 @@ const submitTask = () => {
           />
         </div>
 
-        <!-- Description -->
         <div>
           <label class="block text-sm font-medium text-gray-400 mb-1.5"
             >Description</label
@@ -116,7 +114,6 @@ const submitTask = () => {
           ></textarea>
         </div>
 
-        <!-- Dropdowns -->
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-400 mb-1.5"
@@ -144,7 +141,6 @@ const submitTask = () => {
           </div>
         </div>
 
-        <!-- Deadline -->
         <div>
           <label class="block text-sm font-medium text-gray-400 mb-1.5"
             >Deadline</label

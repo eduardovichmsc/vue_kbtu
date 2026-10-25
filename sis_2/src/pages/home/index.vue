@@ -24,11 +24,10 @@ const openEditModal = (task) => {
     <home-header @open-create-modal="openCreateModal" />
     <task-stats />
     <task-table @edit-task="openEditModal" />
-    
-    <task-form-modal 
-      v-if="isModalOpen" 
+    <task-form-modal
+      v-if="isModalOpen"
       :task-to-edit="taskToEdit"
-      @close="isModalOpen = false" 
+      @close="isModalOpen = false"
     />
   </div>
 </template>

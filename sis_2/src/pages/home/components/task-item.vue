@@ -62,7 +62,7 @@ const toggleComplete = () => {
         </div>
       </div>
     </td>
-    <td class="px-6 py-4">
+    <!-- <td class="px-6 py-4">
       <div class="flex items-center gap-2">
         <div
           class="w-6 h-6 rounded-full bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-[10px] font-bold border border-indigo-500/20"
@@ -71,20 +71,16 @@ const toggleComplete = () => {
         </div>
         <span class="text-gray-700">{{ task.assignee }}</span>
       </div>
-    </td>
+    </td> -->
     <td class="px-6 py-4">
       <div class="flex items-center gap-2 text-gray-700">
-        <Flag class="w-4 h-4" :class="task.priorityColor" />
+        <!-- <Flag class="w-4 h-4" :class="task.priorityColor" /> -->
         {{ task.priority }}
       </div>
     </td>
     <td class="px-6 py-4 text-gray-700">{{ task.deadline }}</td>
     <td class="px-6 py-4">
-      <div
-        class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md border text-xs font-medium"
-        :class="task.statusColor"
-      >
-        <div class="w-1.5 h-1.5 rounded-full" :class="task.statusDot"></div>
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md">
         {{ task.status }}
       </div>
     </td>
