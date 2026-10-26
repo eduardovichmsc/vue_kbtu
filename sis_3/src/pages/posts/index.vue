@@ -1,87 +1,98 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { usePosts } from '../../stores/posts'
-import LoadingSpinner from '../../components/common/loading-spinner.vue'
-import ErrorMessage from '../../components/common/error-message.vue'
+import { ref, computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { usePosts } from "../../stores/posts";
+import LoadingSpinner from "../../components/common/loading-spinner.vue";
+import ErrorMessage from "../../components/common/error-message.vue";
 
-const route = useRoute()
-const router = useRouter()
-const { posts, users, loading, error, fetchPosts, getAuthorName } = usePosts()
+const route = useRoute();
+const router = useRouter();
+const { posts, users, loading, error, fetchPosts, getAuthorName } = usePosts();
 
-const searchQuery = ref(route.query.q || '')
-const selectedAuthor = ref(route.query.author || '')
-const sortBy = ref('newest')
-const currentPage = ref(1)
-const perPage = 10
+const searchQuery = ref(route.query.q || "");
+const selectedAuthor = ref(route.query.author || "");
+const sortBy = ref("newest");
+const currentPage = ref(1);
+const perPage = 10;
 
 onMounted(async () => {
   if (posts.value.length === 0) {
     try {
-      await fetchPosts()
+      await fetchPosts();
     } catch {}
   }
-})
+});
 
-watch(() => route.query.q, (newQ) => {
-  searchQuery.value = newQ || ''
-})
+watch(
+  () => route.query.q,
+  (newQ) => {
+    searchQuery.value = newQ || "";
+  },
+);
 
 const filteredPosts = computed(() => {
-  let list = [...posts.value]
+  let list = [...posts.value];
 
   if (searchQuery.value.trim()) {
-    const q = searchQuery.value.toLowerCase().trim()
-    list = list.filter(p =>
-      (p.title && p.title.toLowerCase().includes(q)) ||
-      (p.body && p.body.toLowerCase().includes(q))
-    )
+    const q = searchQuery.value.toLowerCase().trim();
+    list = list.filter(
+      (p) =>
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.body && p.body.toLowerCase().includes(q)),
+    );
   }
 
   if (selectedAuthor.value) {
-    list = list.filter(p => String(p.userId) === String(selectedAuthor.value))
+    list = list.filter(
+      (p) => String(p.userId) === String(selectedAuthor.value),
+    );
   }
 
-  if (sortBy.value === 'newest') {
-    list.sort((a, b) => Number(b.id) - Number(a.id))
-  } else if (sortBy.value === 'oldest') {
-    list.sort((a, b) => Number(a.id) - Number(b.id))
-  } else if (sortBy.value === 'title') {
-    list.sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+  if (sortBy.value === "newest") {
+    list.sort((a, b) => Number(b.id) - Number(a.id));
+  } else if (sortBy.value === "oldest") {
+    list.sort((a, b) => Number(a.id) - Number(b.id));
+  } else if (sortBy.value === "title") {
+    list.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
   }
 
-  return list
-})
+  return list;
+});
 
-const totalPages = computed(() => Math.ceil(filteredPosts.value.length / perPage) || 1)
+const totalPages = computed(
+  () => Math.ceil(filteredPosts.value.length / perPage) || 1,
+);
 
 const paginatedPosts = computed(() => {
-  const start = (currentPage.value - 1) * perPage
-  return filteredPosts.value.slice(start, start + perPage)
-})
+  const start = (currentPage.value - 1) * perPage;
+  return filteredPosts.value.slice(start, start + perPage);
+});
 
 function setPage(page) {
   if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    currentPage.value = page;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
 
 function resetFilters() {
-  searchQuery.value = ''
-  selectedAuthor.value = ''
-  sortBy.value = 'newest'
-  currentPage.value = 1
-  router.replace({ name: 'posts' })
+  searchQuery.value = "";
+  selectedAuthor.value = "";
+  sortBy.value = "newest";
+  currentPage.value = 1;
+  router.replace({ name: "posts" });
 }
 </script>
 
 <template>
   <div class="space-y-6">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-stone-300 pb-4">
+    <div
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+    >
       <div>
-        <h1 class="text-2xl font-bold tracking-tight text-stone-900">Articles Directory</h1>
-        <p class="text-xs font-mono text-stone-500 mt-1">Browse, filter and search all technical posts</p>
+        <h1 class="text-2xl font-bold tracking-tight text-stone-900">
+          Articles Directory
+        </h1>
       </div>
 
       <router-link
@@ -130,9 +141,15 @@ function resetFilters() {
         </div>
       </div>
 
-      <div class="mt-3 pt-3 border-t border-stone-200 flex items-center justify-between font-mono text-xs text-stone-500">
+      <div
+        class="mt-3 pt-3 border-t border-stone-200 flex items-center justify-between font-mono text-xs text-stone-500"
+      >
         <div>
-          Found <span class="font-bold text-stone-900">{{ filteredPosts.length }}</span> articles
+          Found
+          <span class="font-bold text-stone-900">{{
+            filteredPosts.length
+          }}</span>
+          articles
         </div>
         <button
           v-if="searchQuery || selectedAuthor || sortBy !== 'newest'"
@@ -145,11 +162,23 @@ function resetFilters() {
       </div>
     </div>
 
-    <LoadingSpinner v-if="loading && posts.length === 0" text="Loading articles directory..." />
-    <ErrorMessage v-else-if="error && posts.length === 0" :message="error" @retry="fetchPosts" />
+    <LoadingSpinner
+      v-if="loading && posts.length === 0"
+      text="Loading articles directory..."
+    />
+    <ErrorMessage
+      v-else-if="error && posts.length === 0"
+      :message="error"
+      @retry="fetchPosts"
+    />
 
-    <div v-else-if="filteredPosts.length === 0" class="border border-stone-300 bg-white p-12 text-center">
-      <p class="font-mono text-sm text-stone-600">No articles match your search criteria.</p>
+    <div
+      v-else-if="filteredPosts.length === 0"
+      class="border border-stone-300 bg-white p-12 text-center"
+    >
+      <p class="font-mono text-sm text-stone-600">
+        No articles match your search criteria.
+      </p>
       <button
         type="button"
         @click="resetFilters"
@@ -159,7 +188,10 @@ function resetFilters() {
       </button>
     </div>
 
-    <div v-else class="border border-stone-300 bg-white divide-y divide-stone-200">
+    <div
+      v-else
+      class="border border-stone-300 bg-white divide-y divide-stone-200"
+    >
       <div
         v-for="post in paginatedPosts"
         :key="post.id"
@@ -181,12 +213,16 @@ function resetFilters() {
             </router-link>
           </h2>
 
-          <p class="text-xs text-stone-600 line-clamp-2 max-w-3xl leading-relaxed">
+          <p
+            class="text-xs text-stone-600 line-clamp-2 max-w-3xl leading-relaxed"
+          >
             {{ post.body }}
           </p>
         </div>
 
-        <div class="flex items-center gap-2 self-start sm:self-center font-mono text-xs">
+        <div
+          class="flex items-center gap-2 self-start sm:self-center font-mono text-xs"
+        >
           <router-link
             :to="`/posts/${post.id}`"
             class="px-3 py-1.5 border border-stone-300 bg-white hover:border-stone-900 text-stone-800"
@@ -197,9 +233,13 @@ function resetFilters() {
       </div>
     </div>
 
-    <div v-if="totalPages > 1" class="border border-stone-300 bg-white p-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs">
+    <div
+      v-if="totalPages > 1"
+      class="border border-stone-300 bg-white p-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs"
+    >
       <div>
-        Page <span class="font-bold">{{ currentPage }}</span> of <span class="font-bold">{{ totalPages }}</span>
+        Page <span class="font-bold">{{ currentPage }}</span> of
+        <span class="font-bold">{{ totalPages }}</span>
       </div>
 
       <div class="flex items-center gap-1">
@@ -212,7 +252,9 @@ function resetFilters() {
           &larr; Prev
         </button>
 
-        <span class="px-3 py-1.5 border border-stone-900 bg-stone-900 text-white">
+        <span
+          class="px-3 py-1.5 border border-stone-900 bg-stone-900 text-white"
+        >
           {{ currentPage }}
         </span>
 

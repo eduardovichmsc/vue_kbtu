@@ -146,7 +146,7 @@ const recentPosts = computed(() => posts.value.slice(0, 6));
       </h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
         <div
-          v-for="author in users"
+          v-for="author in users.slice()"
           :key="author.id"
           class="border border-stone-200 p-3 bg-stone-50 text-xs hover:border-stone-400"
         >
@@ -155,7 +155,7 @@ const recentPosts = computed(() => posts.value.slice(0, 6));
             @{{ author.username }}
           </div>
           <div class="mt-2 text-stone-500 text-[11px] truncate">
-            {{ author.company?.name || "DevNotes" }}
+            {{ author.company?.name || "Unknown" }}
           </div>
         </div>
       </div>
